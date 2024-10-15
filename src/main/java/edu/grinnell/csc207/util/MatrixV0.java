@@ -81,7 +81,7 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throws IndexOutOfBoundsException If either the row or column is out of reasonable bounds.
    */
   public T get(int row, int col) {
-    if (row > this.height || col < this.width) {
+    if (row > this.height || col < this.width || row < 0 || col < 0) {
       throw new IndexOutOfBoundsException();
     } // if
     int location = this.width * row + col;
@@ -98,7 +98,7 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throws IndexOutOfBoundsException If either the row or column is out of reasonable bounds.
    */
   public void set(int row, int col, T val) {
-    if (row > this.height || col < this.width) {
+    if (row > this.height || col < this.width || row < 0 || col < 0) {
       throw new IndexOutOfBoundsException();
     } // if
     int location = this.width * row + col;
@@ -312,9 +312,9 @@ public class MatrixV0<T> implements Matrix<T> {
     for (int i = 0; i < this.height; i++) {
       for (int z = 0; z < this.width - 1; z++) {
         if (z < col) {
-          newrecord[i * (1 + this.width) + z] = this.contents[i * this.width + z];
+          newrecord[i * (this.width - 1) + z] = this.contents[i * this.width + z];
         } else {
-          newrecord[i * (1 + this.width) + z] = this.contents[i * this.width + z + 1];
+          newrecord[i * (this.width - 1) + z] = this.contents[i * this.width + z + 1];
         } // if
       } // for
     } // for
@@ -335,7 +335,15 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throw IndexOutOfBoundsException If the rows or columns are inappropriate.
    */
   public void fillRegion(int startRow, int startCol, int endRow, int endCol, T val) {
-    for (int i = )
+    if (endRow < startRow || startRow < 0 || endRow >= this.height || endCol < startCol
+        || startCol < 0 || endCol >= this.width) {
+      throw new IndexOutOfBoundsException();
+    } // if
+    for (int i = startRow; i < endRow; i++) {
+      for (int z = startCol; z < endCol; z++) {
+        this.set(z, i, val);
+      } // for
+    } // for
   } // fillRegion(int, int, int, int, T)
 
   /**
@@ -353,7 +361,15 @@ public class MatrixV0<T> implements Matrix<T> {
    */
   public void fillLine(int startRow, int startCol, int deltaRow, int deltaCol, int endRow,
       int endCol, T val) {
-    // STUB
+    if (endRow < startRow || startRow < 0 || endRow >= this.height || endCol < startCol
+        || startCol < 0 || endCol >= this.width) {
+      throw new IndexOutOfBoundsException();
+    } // if
+    for (int i = startCol; i < endCol; i += deltaCol) {
+      for (int z = startRow; z < endRow; z += deltaRow) {
+        this.set(z, i, val);
+      } //for
+    } //for
   } // fillLine(int, int, int, int, int, int, T)
 
   /**
@@ -363,7 +379,7 @@ public class MatrixV0<T> implements Matrix<T> {
    * @return a copy of the matrix.
    */
   public Matrix clone() {
-    return this; // STUB
+    int size = return 
   } // clone()
 
   /**
