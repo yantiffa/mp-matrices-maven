@@ -1,5 +1,4 @@
 package edu.grinnell.csc207.util;
-import java.util.Arrays;
 
 /**
  * An implementation of two-dimensional matrices.
@@ -403,8 +402,18 @@ public class MatrixV0<T> implements Matrix<T> {
     } //if
     Matrix<T> copy;
     copy = (Matrix<T>) other;
-    return Arrays.equals(this.contents, copy.contents);
-    //this.width == (copy.width()) && this.height == (copy.height()) && 
+    if (this.width == (copy.width()) && this.height == (copy.height())) {
+      return false;
+    } 
+
+    for (int i = 0; i < this.height; i++) {
+      for (int z = 0; z < this.width; z++) {
+        if (this.get(z, i) == copy.get(z,i)) {
+          return false;
+        } //if
+      } //for
+    } //for
+    return true;
   } // equals(Object)
 
 
