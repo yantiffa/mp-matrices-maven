@@ -1,5 +1,7 @@
 package edu.grinnell.csc207.util;
 
+import javax.print.attribute.standard.MediaSize;
+
 /**
  * An implementation of two-dimensional matrices.
  * 
@@ -16,8 +18,8 @@ public class MatrixV0<T> implements Matrix<T> {
   // +--------+
   int width;
   int height;
-  T[] contents;
   T def;
+  T[] contents;
 
   // +--------------+------------------------------------------------
   // | Constructors |
@@ -379,7 +381,9 @@ public class MatrixV0<T> implements Matrix<T> {
    * @return a copy of the matrix.
    */
   public Matrix clone() {
-    int size = return 
+    MatrixV0<T> cloned = new MatrixV0<>(this.width, this.height, this.def) ;
+    System.arraycopy(this.contents, 0, cloned.contents, 0, this.contents.length);
+    return cloned;
   } // clone()
 
   /**
@@ -391,8 +395,13 @@ public class MatrixV0<T> implements Matrix<T> {
    *         false otherwise.
    */
   public boolean equals(Object other) {
-    return this == other; // STUB
+    if (! (other instanceof Matrix)) {
+      return false;
+    } //if
+    other = (MatrixV0<T>) other;
+    return (this.width == other.width() && this.height == other.height() && this.ref == other.ref());
   } // equals(Object)
+
 
   /**
    * Compute a hash code for this matrix. Included because any object that implements `equals` is
