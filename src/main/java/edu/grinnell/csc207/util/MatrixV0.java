@@ -1,6 +1,5 @@
 package edu.grinnell.csc207.util;
-
-import javax.print.attribute.standard.MediaSize;
+import java.util.Arrays;
 
 /**
  * An implementation of two-dimensional matrices.
@@ -374,6 +373,10 @@ public class MatrixV0<T> implements Matrix<T> {
     } //for
   } // fillLine(int, int, int, int, int, int, T)
 
+  public T[] contents() {
+    return this.contents;
+  }
+
   /**
    * A make a copy of the matrix. May share references (e.g., if individual elements are mutable,
    * mutating them in one matrix may affect the other matrix) or may not.
@@ -398,8 +401,10 @@ public class MatrixV0<T> implements Matrix<T> {
     if (! (other instanceof Matrix)) {
       return false;
     } //if
-    other = (MatrixV0<T>) other;
-    return (this.width == other.width() && this.height == other.height() && this.ref == other.ref());
+    Matrix<T> copy;
+    copy = (Matrix<T>) other;
+    return Arrays.equals(this.contents, copy.contents);
+    //this.width == (copy.width()) && this.height == (copy.height()) && 
   } // equals(Object)
 
 
