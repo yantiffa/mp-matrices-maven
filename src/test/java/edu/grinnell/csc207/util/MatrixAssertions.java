@@ -67,5 +67,4 @@ class MatrixAssertions {
       } // for col
     } // for row
   } // assertMatrixEquals()
-
 } // class MatrixAssertions

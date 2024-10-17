@@ -17,22 +17,22 @@ public class MatrixV0<T> implements Matrix<T> {
   /**
    * The width of 2D array.
    */
-  int width;
+  private int width;
 
   /**
    * The height of 2D array.
    */
-  int height;
+  private int height;
 
   /**
    * The defacult value of the 2D array.
    */
-  T def;
+  private T def;
 
   /**
    * The contents of the 2D array.
    */
-  T[] contents;
+  private T[] contents;
 
   // +--------------+------------------------------------------------
   // | Constructors |
@@ -415,18 +415,18 @@ public class MatrixV0<T> implements Matrix<T> {
       Matrix otherMatrix = (Matrix) other;
       if (!(this.width == (otherMatrix.width()) && this.height == (otherMatrix.height()))) {
         return false;
-      } //if
+      } // if
       for (int i = 0; i < this.height; i++) {
         for (int z = 0; z < this.width; z++) {
-          if (this.get(i, z) != otherMatrix.get(i, z)) {
+          if (!(this.get(i, z).equals(otherMatrix.get(i, z)))) {
             return false;
           } // if
         } // for
-      }
+      } //for
     } else {
       // If it's not a matrix, it's not equal.
       return false;
-    } 
+    } //if
     return true;
   } // equals(Object)
 

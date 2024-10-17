@@ -520,5 +520,4 @@ class TestMatrix {
       } // for j
     } // for i
   } // testEquals()
-
 } // TestMatrix

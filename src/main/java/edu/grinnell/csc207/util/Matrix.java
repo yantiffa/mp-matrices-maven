@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 
 /**
  * Two-dimensional matrices.
- *
+ * This is for csc207
  * @author Samuel A. Rebelsky
  *
  * @param <T>
