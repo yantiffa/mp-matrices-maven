@@ -96,7 +96,7 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throws IndexOutOfBoundsException If either the row or column is out of reasonable bounds.
    */
   public T get(int row, int col) {
-    if (row >= this.height || col <= this.width || row < 0 || col < 0) {
+    if (row >= this.height || col >= this.width || row < 0 || col < 0) {
       throw new IndexOutOfBoundsException();
     } // if
     int location = this.width * row + col;
@@ -113,7 +113,7 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throws IndexOutOfBoundsException If either the row or column is out of reasonable bounds.
    */
   public void set(int row, int col, T val) {
-    if (row >= this.height || col <= this.width || row < 0 || col < 0) {
+    if (row >= this.height || col >= this.width || row < 0 || col < 0) {
       throw new IndexOutOfBoundsException();
     } // if
     int location = this.width * row + col;
@@ -256,7 +256,7 @@ public class MatrixV0<T> implements Matrix<T> {
 
     if (vals.length != this.height) {
       throw new ArraySizeException();
-    } //if
+    } // if
 
     T[] newrecord = (T[]) new Object[this.height * (this.width + 1)];
 
@@ -350,13 +350,13 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throw IndexOutOfBoundsException If the rows or columns are inappropriate.
    */
   public void fillRegion(int startRow, int startCol, int endRow, int endCol, T val) {
-    if (endRow < startRow || startRow < 0 || endRow >= this.height || endCol < startCol
-        || startCol < 0 || endCol >= this.width) {
+    if (endRow < startRow || startRow < 0 || endRow > this.height || endCol < startCol
+        || startCol < 0 || endCol > this.width) {
       throw new IndexOutOfBoundsException();
     } // if
     for (int i = startRow; i < endRow; i++) {
       for (int z = startCol; z < endCol; z++) {
-        this.set(z, i, val);
+        this.set(i, z, val);
       } // for
     } // for
   } // fillRegion(int, int, int, int, T)
@@ -376,15 +376,17 @@ public class MatrixV0<T> implements Matrix<T> {
    */
   public void fillLine(int startRow, int startCol, int deltaRow, int deltaCol, int endRow,
       int endCol, T val) {
-    if (endRow < startRow || startRow < 0 || endRow >= this.height || endCol < startCol
-        || startCol < 0 || endCol >= this.width) {
+    if (endRow < startRow || startRow < 0 || endRow > this.height || endCol < startCol
+        || startCol < 0 || endCol > this.width) {
       throw new IndexOutOfBoundsException();
     } // if
-    for (int i = startCol; i < endCol; i += deltaCol) {
-      for (int z = startRow; z < endRow; z += deltaRow) {
-        this.set(z, i, val);
-      } // for
-    } // for
+
+    while (startRow != endRow && startCol != endCol) {
+      set(startRow, startCol, val);
+      startRow += deltaRow;
+      startCol += deltaCol;
+    } // while
+
   } // fillLine(int, int, int, int, int, int, T)
 
   /**
@@ -407,23 +409,24 @@ public class MatrixV0<T> implements Matrix<T> {
    * @return true if the other object is a matrix with the same width, height, and equal elements;
    *         false otherwise.
    */
-  public boolean equals(Object other) {
-    if (!(other instanceof Matrix)) {
-      return false;
-    } // if
-    Matrix<T> copy;
-    copy = (Matrix<T>) other;
-    if (this.width == (copy.width()) && this.height == (copy.height())) {
-      return false;
-    } //if
 
-    for (int i = 0; i < this.height; i++) {
-      for (int z = 0; z < this.width; z++) {
-        if (this.get(z, i) == copy.get(z, i)) {
-          return false;
-        } // if
-      } // for
-    } // for
+  public boolean equals(Object other) {
+    if (other instanceof Matrix) {
+      Matrix otherMatrix = (Matrix) other;
+      if (!(this.width == (otherMatrix.width()) && this.height == (otherMatrix.height()))) {
+        return false;
+      } //if
+      for (int i = 0; i < this.height; i++) {
+        for (int z = 0; z < this.width; z++) {
+          if (this.get(i, z) != otherMatrix.get(i, z)) {
+            return false;
+          } // if
+        } // for
+      }
+    } else {
+      // If it's not a matrix, it's not equal.
+      return false;
+    } 
     return true;
   } // equals(Object)
 
