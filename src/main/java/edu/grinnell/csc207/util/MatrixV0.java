@@ -2,7 +2,7 @@ package edu.grinnell.csc207.util;
 
 /**
  * An implementation of two-dimensional matrices.
- * 
+ *
  * This is for the CSC207 class of fall 24.
  *
  * @author Tiffany Yan
@@ -14,9 +14,24 @@ public class MatrixV0<T> implements Matrix<T> {
   // +--------+------------------------------------------------------
   // | Fields |
   // +--------+
+  /**
+   * The width of 2D array.
+   */
   int width;
+
+  /**
+   * The height of 2D array.
+   */
   int height;
+
+  /**
+   * The defacult value of the 2D array.
+   */
   T def;
+
+  /**
+   * The contents of the 2D array.
+   */
   T[] contents;
 
   // +--------------+------------------------------------------------
@@ -81,7 +96,7 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throws IndexOutOfBoundsException If either the row or column is out of reasonable bounds.
    */
   public T get(int row, int col) {
-    if (row > this.height || col < this.width || row < 0 || col < 0) {
+    if (row >= this.height || col <= this.width || row < 0 || col < 0) {
       throw new IndexOutOfBoundsException();
     } // if
     int location = this.width * row + col;
@@ -98,7 +113,7 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throws IndexOutOfBoundsException If either the row or column is out of reasonable bounds.
    */
   public void set(int row, int col, T val) {
-    if (row > this.height || col < this.width || row < 0 || col < 0) {
+    if (row >= this.height || col <= this.width || row < 0 || col < 0) {
       throw new IndexOutOfBoundsException();
     } // if
     int location = this.width * row + col;
@@ -241,7 +256,7 @@ public class MatrixV0<T> implements Matrix<T> {
 
     if (vals.length != this.height) {
       throw new ArraySizeException();
-    }
+    } //if
 
     T[] newrecord = (T[]) new Object[this.height * (this.width + 1)];
 
@@ -368,13 +383,9 @@ public class MatrixV0<T> implements Matrix<T> {
     for (int i = startCol; i < endCol; i += deltaCol) {
       for (int z = startRow; z < endRow; z += deltaRow) {
         this.set(z, i, val);
-      } //for
-    } //for
+      } // for
+    } // for
   } // fillLine(int, int, int, int, int, int, T)
-
-  public T[] contents() {
-    return this.contents;
-  }
 
   /**
    * A make a copy of the matrix. May share references (e.g., if individual elements are mutable,
@@ -383,7 +394,7 @@ public class MatrixV0<T> implements Matrix<T> {
    * @return a copy of the matrix.
    */
   public Matrix clone() {
-    MatrixV0<T> cloned = new MatrixV0<>(this.width, this.height, this.def) ;
+    MatrixV0<T> cloned = new MatrixV0<>(this.width, this.height, this.def);
     System.arraycopy(this.contents, 0, cloned.contents, 0, this.contents.length);
     return cloned;
   } // clone()
@@ -397,22 +408,22 @@ public class MatrixV0<T> implements Matrix<T> {
    *         false otherwise.
    */
   public boolean equals(Object other) {
-    if (! (other instanceof Matrix)) {
+    if (!(other instanceof Matrix)) {
       return false;
-    } //if
+    } // if
     Matrix<T> copy;
     copy = (Matrix<T>) other;
     if (this.width == (copy.width()) && this.height == (copy.height())) {
       return false;
-    } 
+    } //if
 
     for (int i = 0; i < this.height; i++) {
       for (int z = 0; z < this.width; z++) {
-        if (this.get(z, i) == copy.get(z,i)) {
+        if (this.get(z, i) == copy.get(z, i)) {
           return false;
-        } //if
-      } //for
-    } //for
+        } // if
+      } // for
+    } // for
     return true;
   } // equals(Object)
 
